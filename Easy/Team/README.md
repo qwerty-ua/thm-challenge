@@ -65,8 +65,9 @@ Beginner friendly boot2root machine
 4. Підвищення привілеїв (Privilege Escalation)
 
    3.1. Горизонтальне переміщення (dale -> gyles):
-      Маємо скрипт, який запускає будь-яку введену команду
-       ![priv_esc_gyles](./img/priv_esc_gyles.png)
+      Маємо скрипт, що запускає будь-яку введену команду, який я можу запустити від імені gyles без пароля
+
+   ![priv_esc_gyles](./img/priv_esc_gyles.png)
 
       Спавнимо собі шелл від імені gyles та стабілізуємо його:
        ![gyles](./img/gyles.png)
@@ -85,5 +86,6 @@ Beginner friendly boot2root machine
 
 
       Так як скрипт виконується від імені root, а користувач gyles має право на редагування цього скрипта, запускаю реверс-шелл та отримую root.
-       ![rev_shell](./img/root_revers_shell.png)
+
+   ![rev_shell](./img/root_revers_shell.png)
        ![root](./img/root.png)
