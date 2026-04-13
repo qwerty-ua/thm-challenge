@@ -1,5 +1,4 @@
-Team
-Beginner friendly boot2root machine
+# Team - Beginner friendly boot2root machine
 
 Складність: Easy
 Ціль: 10.112.135.55
