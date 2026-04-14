@@ -5,6 +5,7 @@
 1. Розвідка (Reconnaissance & Enumeration)
    
   1.1. Сканування портів (Nmap):
+    
     Так як машина не пінгувалась взяв таку команду 
     `sudo nmap -sS -sV -sC -Pn -p- -vv 10.113.151.34`
     ![Nmap scan](./img/nmap_scan.png)
