@@ -1,2 +1,10 @@
-# thm-challenge
-Записи з проходження машин
+<h1 align="center">🏴‍☠️ Записи з TryHackMe 🏴‍☠️</h1>
+
+✔️**Мій профіль** ☠️[HiDieBye](https://tryhackme.com/p/HiDieBye)☠️
+
+  ### Easy🟢:      
+  * [Flatline](./Easy/Flatline/README.md)  - `Windows, FreeSwitch, PrintSpoofer.exe`
+  * [Startup](./Easy/Startup/README.md) - `Linux, FTP, WebServer, user scripts`
+  * [Team](./Easy/Team/README.md) - `Linux, WebServer, LFI, user scripts`   
+
+  
