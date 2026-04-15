@@ -65,7 +65,7 @@
 
 3. Підвищення привілеїв (Privilege Escalation)
 
-     3.1. Горизонтальне переміщення (www-data -> User):
+     3.1. Горизонтальне переміщення (www-data -> lennie):
      Переглядаю файли на машині та знаходжу цікавий файл. Переглядаю його.
      `/ftp/ata@startup:/incidents$ cp /incidents/suspicious.pcapng /var/www/html/files`
   
@@ -77,7 +77,7 @@
   
      ![user.txt](./img/user_txt.png)
 
-     3.2. Вертикальне підвищення (User -> Root): 
+     3.2. Вертикальне підвищення (lennie -> Root): 
   
      Переглядаючи файли користувача, знаходжу такі скрипти.
   
