@@ -1,5 +1,6 @@
 # Flatline - How low are your morals? 
 Складність: Easy 
+
 Ціль: 10.113.151.34
 
 1. Розвідка (Reconnaissance & Enumeration)
