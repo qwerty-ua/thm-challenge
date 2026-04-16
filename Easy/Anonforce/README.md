@@ -7,44 +7,46 @@
 1. Розвідка (Reconnaissance & Enumeration)
 
     1.1. Сканування портів (Nmap):
-      `nmap -sC -sV -O -p- -vv 10.112.167.145`
 
-      nmap_scan.png
+     `nmap -sC -sV -O -p- -vv 10.112.167.145`
+
+      ![nmap](./img/nmap_scan.png)
    
     1.2. FTP:
+
       Знаходжу зашифрований файл та ключ, забираю собі.
 
-      notread.png
+      ![dir /notread](./img/notread.png)
 
       Також дивлюсь домашні директорії користувачів.
 
-      ftp_home.png
+      ![dir /home](./img/ftp_home.png)
 
       Знаходжу прапор `user.txt`.
 
-      user_txt.png
+      ![user.txt](./img/user_txt.png)
 
    
-2. Отримання доступу
+3. Отримання доступу
 
-      Пробую глянути що це за файл та ключ, але треба `passphrase`.
+      Пробую глянути що це за файл та ключ, але треба пароль.
 
-      gpg_error.png
+      ![passphrase error](./img/gpg_error.png)
 
       Дістаю хеш, та за допомогою `john` дізнаюсь пароль.
 
-      hash_txt_1.png 
+      ![passphrase brute](./img/hash_txt_1.png) 
 
-      john.png
+      ![passphrase](./img/john.png)
 
       Імпортую ключ та дивлюсь вміст зашифрованого файлу.
 
-      backup_pgp.png
+      ![backup.pgp](./img/backup_pgp.png)
 
       Беру з попереднього файлу хеш `root`-а та знову використовую `john`.
 
-      root_hash.png
+      ![roothash brute](./img/root_hash.png)
 
       Підключаюсь по SSH та забираю прапор `root.txt`.
 
-      root_txt.png
+      ![root.txt](./img/root_txt.png)
