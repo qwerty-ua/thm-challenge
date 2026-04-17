@@ -8,3 +8,4 @@
   * [Team](./Easy/Team/README.md) - `Linux, WebServer, LFI, user scripts`   
   * [RootMe](./Easy/RootMe/README.md) - `Linux, file upload bypass, SUID`
   * [Anonforce](./Easy/Anonforce/README.md) - `Linux, FTP, bruteforce`
+  * [LazyAdmin](./Easy/LazyAdmin/README.md) - `Linux, SweetRice 1.5.1 PHP Code Execution, user scripts`
