@@ -20,7 +20,8 @@
       ![main page](./img/html.png)
 
       Запускаю `gobuster` з словником `common.txt`.
-      `gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt  -u http://10.113.166.242 -t 50 -k -x html,txt,php`
+
+   `gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt  -u http://10.113.166.242 -t 50 -k -x html,txt,php`
    
       ![gobuster](./img/gobuster_common.png)
 
@@ -46,7 +47,7 @@
    
       ![manager pass](./img/manager_pass.png)   
     
-2. Точка входу (Initial Access / Foothold)
+3. Точка входу (Initial Access / Foothold)
 
     2.1. Експлуатація вразливості:
 
@@ -67,7 +68,7 @@
 
       ![reverse shell 2](./img/rev_shell_2.png)
 
-3. Підвищення привілеїв (Privilege Escalation)
+4. Підвищення привілеїв (Privilege Escalation)
 
     3.1. Вертикальне підвищення (www-data -> Root):
 
