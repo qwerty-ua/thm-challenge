@@ -11,3 +11,4 @@
   * [LazyAdmin](./Easy/LazyAdmin/README.md) - `Linux, SweetRice 1.5.1 PHP Code Execution, user scripts`
   * [Billing](./Easy/Billing/README.md) - `Linux, CVE-2023-30258, MSF, fail2ban root permissions`
   * [Basic Pentesting](./Easy/Basic-Pentesting/README.md) - `Linux, SMB, Hydra, John, user files`
+  * [DearQA](./Easy/DearQA/README.md) - `Linux, Stack Buffer Overflow, GDB, ELF 64-bit` 
