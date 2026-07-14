@@ -12,4 +12,5 @@
   * [Billing](./Easy/Billing/README.md)                     - `Linux, CVE-2023-30258, MSF, fail2ban root permissions`
   * [Basic Pentesting](./Easy/Basic-Pentesting/README.md)   - `Linux, SMB, Hydra, John, user files`
   * [DearQA](./Easy/DearQA/README.md)                       - `Linux, Stack Buffer Overflow, GDB, ELF 64-bit`
-  * [Capture!](./Easy/Capture/README.md)                     - `Web, Rate Limiting Bypass, Python Automation, CAPTCHA, Username Enumeration`
+  * [Capture!](./Easy/Capture/README.md)                    - `Web, Rate Limiting Bypass, Python Automation, CAPTCHA, Username Enumeration`
+  * [Couch](./Easy/Couch/README.md)                         - `Linux, CouchDB Misconfiguration, Docker API Exploitation`
