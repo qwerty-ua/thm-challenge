@@ -14,3 +14,4 @@
   * [DearQA](./Easy/DearQA/README.md)                       - `Linux, Stack Buffer Overflow, GDB, ELF 64-bit`
   * [Capture!](./Easy/Capture/README.md)                    - `Web, Rate Limiting Bypass, Python Automation, CAPTCHA, Username Enumeration`
   * [Couch](./Easy/Couch/README.md)                         - `Linux, CouchDB Misconfiguration, Docker API Exploitation`
+  * [Glitch](./Easy/GLITCH/README.md)                       - `Linux, Node.js RCE, Firefox Decrypt, doas`
