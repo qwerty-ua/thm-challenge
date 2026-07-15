@@ -1,5 +1,5 @@
 
-# GLITCH - Challenge showcasing a web app and simple privilege escalation. Can you find the glitch?] 
+# [GLITCH - Challenge showcasing a web app and simple privilege escalation. Can you find the glitch?] 
 
 Складність: Easy
 
