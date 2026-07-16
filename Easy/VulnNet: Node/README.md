@@ -1,5 +1,5 @@
 
-# [VulnNet: Node - After the previous breach, VulnNet Entertainment states it won't happen again. Can you prove they're wrong?] 
+# VulnNet: Node - After the previous breach, VulnNet Entertainment states it won't happen again. Can you prove they're wrong?
 
 Складність: Easy
 
