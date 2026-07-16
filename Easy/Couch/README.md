@@ -1,5 +1,5 @@
 
-# [Couch - Hack into a vulnerable database server that collects and stores data in JSON-based document formats, in this semi-guided challenge.] 
+# Couch - Hack into a vulnerable database server that collects and stores data in JSON-based document formats, in this semi-guided challenge.
 
 Складність: Easy
 
