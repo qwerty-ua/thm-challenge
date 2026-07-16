@@ -1,5 +1,5 @@
 
-# [Capture! - Can you bypass the login form?] 
+# Capture! - Can you bypass the login form?
 
 Складність: Easy
 
