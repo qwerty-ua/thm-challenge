@@ -1,5 +1,5 @@
 
-# [Dear QA - Are you able to solve this challenge involving reverse engineering and exploit development?] 
+# Dear QA - Are you able to solve this challenge involving reverse engineering and exploit development? 
 
 Складність: Easy
 
