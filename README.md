@@ -15,3 +15,4 @@
   * [Capture!](./Easy/Capture/README.md)                    - `Web, Rate Limiting Bypass, Python Automation, CAPTCHA, Username Enumeration`
   * [Couch](./Easy/Couch/README.md)                         - `Linux, CouchDB Misconfiguration, Docker API Exploitation`
   * [Glitch](./Easy/GLITCH/README.md)                       - `Linux, Node.js RCE, Firefox Decrypt, doas`
+  * [VulnNet: Node](./Easy/VulnNet-Node/README.md)          - `Linux, Node.js, node-serialize, npm, systemd`
