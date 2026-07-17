@@ -1,5 +1,5 @@
 
-# [Chocolate Factory - A Charlie And The Chocolate Factory themed room, revisit Willy Wonka's chocolate factory!] 
+# Chocolate Factory - A Charlie And The Chocolate Factory themed room, revisit Willy Wonka's chocolate factory! 
 
 Складність: Easy
 
