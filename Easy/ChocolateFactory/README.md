@@ -52,7 +52,7 @@
    └─$ file key_rev_key                                                                                                               
    key_rev_key: ELF 64-bit LSB pie executable, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, for GNU/Linux 3.2.0,   BuildID[sha1]=8273c8c59735121c0a12747aee7ecac1aabaf1f0, not stripped
    ```
-      Файл виявився 64-бітним ELF-виконуваним файлом для Linux. За допомогою утиліти `strings` дістаємо з нього секретний ключ, який знадобиться нам на пізніше:
+   Файл виявився 64-бітним ELF-виконуваним файлом для Linux. За допомогою утиліти `strings` дістаємо з нього секретний ключ, який знадобиться нам на пізніше:
    ```bash
    └─$ strings key_rev_key
    ...
