@@ -16,4 +16,5 @@
   * [Couch](./Easy/Couch/README.md)                         - `Linux, CouchDB Misconfiguration, Docker API Exploitation`
   * [Glitch](./Easy/GLITCH/README.md)                       - `Linux, Node.js RCE, Firefox Decrypt, doas`
   * [VulnNet: Node](./Easy/VulnNet-Node/README.md)          - `Linux, Node.js, node-serialize, npm, systemd`
-  * [Chocolate Factory](./Easy/ChocolateFactory/README.md) - `Linux, FTP Anonymous, Steganography, RCE, Sudo vi Bypass, Python Fernet`
+  * [Chocolate Factory](./Easy/ChocolateFactory/README.md)  - `Linux, FTP Anonymous, Steganography, RCE, Sudo vi Bypass, Python Fernet`
+  * [Poster](./Easy/Poster/README.md)                       - `Linux, PostgreSQL, Default Credentials, RCE (COPY FROM PROGRAM), Insecure Sudoers`
