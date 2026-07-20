@@ -21,3 +21,4 @@
 
   ### Medium🟡:
   * [Fools Mate, Revenge](./Medium/Fools_Mate_Revenge/README.md) - `Linux, Node.js, Prototype Pollution, API Bypass`
+  * [Crypto Failures](./Medium/CryptoFailures/README.md)         - `Web, PHP Source Review, Custom Crypto, DES, Byte-at-a-Time Chosen-Plaintext Attack`
