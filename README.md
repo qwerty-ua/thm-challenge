@@ -23,3 +23,4 @@
   * [Fools Mate, Revenge](./Medium/Fools_Mate_Revenge/README.md) - `Linux, Node.js, Prototype Pollution, API Bypass`
   * [Crypto Failures](./Medium/CryptoFailures/README.md)         - `Web, PHP Source Review, Custom Crypto, DES, Byte-at-a-Time Chosen-Plaintext Attack`
   * [Rabbit Store](./Medium/RabbitStore/README.md)               - `Linux, Web, SSRF, Erlang/RabbitMQ, Privilege Escalation`
+  * [The London Bridge](./Medium/The_London_Bridge/README.md)    - `Linux, Web, SSRF, Filter Bypass, SSH Key Leak, CVE-2026-31431`
