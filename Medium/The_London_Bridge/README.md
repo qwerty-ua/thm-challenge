@@ -182,7 +182,7 @@ Serving HTTP on 0.0.0.0 port 80 (http://0.0.0.0:80/) ...
 -fs 290
 ```
 
-![fuff_ports](./img/fuff_ports.png)
+![fuff_ports](./img/ffuf_ports.png)
 
    Результат:
 * 8080 — Зовнішній додаток (Explore London).
