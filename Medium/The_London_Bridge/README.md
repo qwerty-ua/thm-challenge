@@ -333,7 +333,7 @@ beth@london:~$ find / -name "user.txt" 2>/dev/null
 /home/beth/__pycache__/user.txt
 ```
 
-![user_txt](./img/user.txt)
+![user_txt](./img/user_txt.png)
 
 ## 4. Підвищення привілеїв (Privilege Escalation)
 
