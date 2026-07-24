@@ -16,9 +16,9 @@
 ![nmap](./img/nmap.png)
 
    У результаті було виявлено три відкриті порти:
-   `22`   - OpenSSH
-   `6048` - невідомий сервіс
-   `8000` - Werkzeug (Python Flask)
+   * `22`   - OpenSSH
+   * `6048` - невідомий сервіс
+   * `8000` - Werkzeug (Python Flask)
 
    Під час аналізу відповіді вебсервер повідомив: `Did not follow redirect to http://airplane.thm:8000/?page=index.html`. Отже, для коректної роботи застосунку необхідно додати запис `10.114.164.127 airplane.thm` до файлу `/etc/hosts`.
    
@@ -227,7 +227,7 @@ carlos@airplane:~$ sudo /usr/bin/ruby /root/../home/carlos/root.rb
 
 
 ## Блок-схема
-
+```
 Nmap
    │
    ▼
@@ -254,3 +254,4 @@ sudo ruby /root/*.rb
         │
         ▼
       root
+```
