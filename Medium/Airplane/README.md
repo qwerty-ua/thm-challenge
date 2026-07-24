@@ -1,4 +1,4 @@
-<img width="545" height="123" alt="image" src="https://github.com/user-attachments/assets/d70084cb-1eb5-4dba-bb8e-484e4e9ba0b7" />
+
 # Airplane - Are you ready to fly?
 
 Складність: Medium
