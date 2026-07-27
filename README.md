@@ -25,3 +25,4 @@
   * [Rabbit Store](./Medium/RabbitStore/README.md)               - `Linux, Web, SSRF, Erlang/RabbitMQ, Privilege Escalation`
   * [The London Bridge](./Medium/The_London_Bridge/README.md)    - `Linux, Web, SSRF, Filter Bypass, SSH Key Leak, CVE-2026-31431`
   * [Airplane](./Medium/Airplane/README.md)                      - `Linux, Web, Flask, LFI, gdbserver, RCE, SUID, sudo Wildcard, Privilege Escalation`
+  * [WhyHackMe](./Medium/WhyHackMe/README.md)                    - `Linux, Web, FTP, Stored XSS, Wireshark, TLS, CGI RCE, sudo, Privilege Escalation`
