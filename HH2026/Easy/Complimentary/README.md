@@ -144,9 +144,13 @@ guest-ponzi
 
 ## Висновкі
    Вразливість полягає в неправильній конфігурації `IAM permissions` для `unauthenticated Cognito role`.
+   
    Застосунок автоматично видає кожному відвідувачу `AWS credentials` через `Cognito Identity Pool`:
+
 `Cognito Identity Pool` => `complimentary-cognito-unauth-role` => `DynamoDB`.
+   
    Хоча frontend використовує `GetItem` лише для поточного `guest_id`, `IAM permissions` дозволяють виконати `dynamodb:Scan` для всієї таблиці.
+   
    У результаті будь-який `anonymous guest` може отримати дані всіх користувачів, включно з:
 * паролями;
 * email;
@@ -154,4 +158,4 @@ guest-ponzi
 * локацією;
 * внутрішніми нотатками.
 
-   Таким чином, основна проблема — `IAM Misconfiguration` / `Excessive Permissions` для `Cognito unauthenticated role`, що дозволяє читати всю `DynamoDB` таблицю замість доступу лише до власного запису.
+Таким чином, основна проблема — `IAM Misconfiguration` / `Excessive Permissions` для `Cognito unauthenticated role`, що дозволяє читати всю `DynamoDB` таблицю замість доступу лише до власного запису.
