@@ -26,5 +26,5 @@
   * [The London Bridge](./Medium/The_London_Bridge/README.md)    - `Linux, Web, SSRF, Filter Bypass, SSH Key Leak, CVE-2026-31431`
   * [Airplane](./Medium/Airplane/README.md)                      - `Linux, Web, Flask, LFI, gdbserver, RCE, SUID, sudo Wildcard, Privilege Escalation`
   * [WhyHackMe](./Medium/WhyHackMe/README.md)                    - `Linux, Web, FTP, Stored XSS, Wireshark, TLS, CGI RCE, sudo, Privilege Escalation`
-  
+  * [Phantom Fob](./Medium/Phantom_Fob/README.md)                - `Automotive Security, CAN Bus, socketcand, Rolling Code, Replay Protection, Checksum, Python, Signal Forging`
   * [GoldenEye](./Medium/GoldenEye/README.md)                    - `Linux, POP3, Credential Leakage, Moodle, RCE (CVE-2013-3630), OverlayFS (CVE-2015-1328), Privilege Escalation`
