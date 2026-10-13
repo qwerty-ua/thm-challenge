@@ -189,8 +189,8 @@ cat /root/.flag.txt
   * Моніторинг: журналювати адміністративні зміни, підозрілі входи та нетипові вихідні з'єднання вебсервера.
 
 ## Посилання
-[Moodle Authenticated Spelling Binary RCE — Rapid7](https://www.rapid7.com/db/modules/exploit/multi/http/moodle_spelling_binary_rce/)
-[CVE-2013-3630 — CVE](https://www.cve.org/CVERecord?id=CVE-2013-3630)
-[CVE-2015-1328 / Exploit-DB 37292 — OverlayFS](https://www.exploit-db.com/exploits/37292)
+- [Moodle Authenticated Spelling Binary RCE — Rapid7](https://www.rapid7.com/db/modules/exploit/multi/http/moodle_spelling_binary_rce/)
+- [CVE-2013-3630 — CVE](https://www.cve.org/CVERecord?id=CVE-2013-3630)
+- [CVE-2015-1328 / Exploit-DB 37292 — OverlayFS](https://www.exploit-db.com/exploits/37292)
 
 **Опис стосується навчального CTF-середовища TryHackMe GoldenEye.**
