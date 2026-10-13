@@ -15,7 +15,7 @@
 ```
 
 ![nmap1](./img/nmap1.png)
-![nmap2](./img/nmap1.png)
+![nmap2](./img/nmap2.png)
 
 ### 1.2. Веб-розвідка:
 На головній сторінці знаходжу підказку щодо `/sev-home/`. Під час аналізу вихідного коду переглядаю JavaScript-файл:
@@ -41,7 +41,7 @@
 nc -nv 10.112.135.94 55007
 ```
 
-![nc_pop3_auth_error.png](nc_pop3_auth_error.png)
+![nc_pop3_auth_error.png](./img/nc_pop3_auth_error.png)
 
 Формую файл `users.txt` з іменами `boris` і `natalya` та перевіряю невеликий словник паролів за допомогою `Hydra`:
 ```bash
@@ -91,7 +91,7 @@ RETR 1
 
 ![POP3_doak.png](./img/POP3_doak.png)
 
-У листі містяться облікові дані для вебпорталу Moodle: `dr_doak:4England!`. Там знайдено `s3cret.txt`.
+У листі містяться облікові дані для вебпорталу Moodle: `dr_doak:4England!`. Авторизуюсь та знаходжу `s3cret.txt`.
 
 ![s3cret_txt.png](./img/s3cret_txt.png)
 
@@ -173,7 +173,7 @@ cat /root/.flag.txt
 
 Результат: `uid=0(root)` - права суперкористувача отримано. Знайдено фінальний прапор машини.
 
-![flag.png](flag.png)
+![flag.png](./img/flag.png)
 
 ## Висновки та рекомендації
 
